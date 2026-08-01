@@ -407,7 +407,7 @@ with tab1:
         judgement = st.selectbox("Judgement", MSE_OPTIONS["judgement"])
 
         subhead("Risk Assessment")
-        risk_assessment = st.multiselect("Select all that apply", RISK_OPTIONS, default=["Nil"])
+        risk_assessment = st.multiselect("Select all that apply", RISK_OPTIONS)
         risk_details = st.text_area("Risk details (plan, intent, means, frequency, if applicable)", height=80)
         protective_factors = st.text_area("Protective Factors", height=80)
         safety_plan = st.text_area("Safety Plan (required if risk flagged beyond 'Nil')", height=80)
