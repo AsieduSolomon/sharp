@@ -203,8 +203,56 @@ section[data-testid="stSidebar"] .kc-sidebar-title {
 }
 
 hr { border-color: var(--border); }
+
+/* Multiselect tags */
+span[data-baseweb="tag"] {
+    background-color: var(--accent) !important;
+    border-radius: 3px !important;
+}
+
+/* Radio / checkbox accent */
+.stRadio [aria-checked="true"] div:first-child {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+}
+.stCheckbox [aria-checked="true"] {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+}
+
+/* Select box focus / dropdown highlight */
+div[data-baseweb="select"]:focus-within > div {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 1px var(--accent) !important;
+}
+li[aria-selected="true"] {
+    background-color: var(--accent-light) !important;
+}
+
+/* Date input focus */
+.stDateInput input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 1px var(--accent) !important;
+}
+
+/* Links */
+a, a:visited { color: var(--accent) !important; }
 </style>
 """, unsafe_allow_html=True)
+
+# The settings below replace what used to live in .streamlit/config.toml,
+# so the whole app is now defined in this single file:
+#   theme.base                     = "light"    -> handled by CSS variables above
+#   theme.primaryColor             = "#2C5F6F"  -> var(--accent) above
+#   theme.backgroundColor          = "#FFFFFF"  -> surfaces/cards above
+#   theme.secondaryBackgroundColor = "#F6F7F9"  -> var(--bg) above
+#   theme.textColor                = "#17202B"  -> var(--text-primary) above
+#   client.toolbarMode             = "minimal"  -> #MainMenu/header hidden above
+#   browser.gatherUsageStats       = False       -> set programmatically below
+try:
+    st._config.set_option("browser.gatherUsageStats", False)
+except Exception:
+    pass
 
 # ----------------------------------------------------------------
 # DATABASE
@@ -407,7 +455,7 @@ with tab1:
         judgement = st.selectbox("Judgement", MSE_OPTIONS["judgement"])
 
         subhead("Risk Assessment")
-        risk_assessment = st.multiselect("Select all that apply", RISK_OPTIONS)
+        risk_assessment = st.multiselect("Select all that apply", RISK_OPTIONS, default=["Nil"])
         risk_details = st.text_area("Risk details (plan, intent, means, frequency, if applicable)", height=80)
         protective_factors = st.text_area("Protective Factors", height=80)
         safety_plan = st.text_area("Safety Plan (required if risk flagged beyond 'Nil')", height=80)
